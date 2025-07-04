@@ -19,8 +19,6 @@ const io = new Server(server, {
   },
 });
 
-// ... (rest of your 658-line index.js remains unchanged)
-
 // In-memory game storage
 const games = new Map();
 const timers = new Map();
@@ -111,7 +109,7 @@ io.on("connection", (socket) => {
         currentTurn: null,
         turnOrder: [],
         status: "lobby",
-        maxPlayers: Math.min(playerCount, 5),
+        maxPlayers: Math.min(playerCount, 10), // Updated from 5 to 10
         roundTimeLimit: roundTimeLimit || 0,
         roundTimer: null,
         chatMessages: [],
@@ -174,7 +172,7 @@ io.on("connection", (socket) => {
       io.to(gameId).emit("gameData", { game });
     } else {
       if (game.players.length >= game.maxPlayers) {
-        socket.emit("joinError", { message: "Maximum players reached (5)." });
+        socket.emit("joinError", { message: "Maximum players reached (10)." }); // Updated from 5 to 10
         return;
       }
       if (
